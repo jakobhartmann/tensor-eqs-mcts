@@ -4,3 +4,7 @@
 [submodule "tensat"]
 	path = tensat
 	url = https://github.com/jakobhartmann/tensat.git
+[submodule "rmcts"]
+	path = rmcts
+	url = https://github.com/jakobhartmann/rmcts.git
+	branch = tensat

@@ -6,7 +6,7 @@ This repository accompanies the paper *"Optimizing Tensor Computation Graphs wit
 3. Y. Yang et al., [Equality Saturation for Tensor Graph Superoptimization](https://proceedings.mlsys.org/paper_files/paper/2021/file/cc427d934a7f6c0663e5923f49eba531-Paper.pdf), MLSys, 2021. TENSAT serves as our baseline and provides important functionality such as the application of multi-pattern rewrite rules. We have modified [this version](https://github.com/uwplse/tensat) to implement, among other things, our proposed cost function.
 4. He et al., [MCTS-GEB: Monte Carlo Tree Search is a Good E-graph Builder](https://dl.acm.org/doi/abs/10.1145/3578356.3592577), EuroMLSys, 2023. Our tensor program optimizer is built on top of the [Rust-based implementation](https://github.com/hgl71964/rmcts) of MCTS-GEB.
 
-Below is an overview of our tensor program optimizer using equality saturation and MCTS. All code artifacts except for TASO are included in this repository.
+Below is an overview of our tensor program optimizer using equality saturation and MCTS. We have added our modified versions of egg, TENSAT, and rmcts as submodules to this repository.
 
 
 ![Overview of our tensor program optimizer using equality saturation and MCTS](overview.png)
@@ -31,24 +31,28 @@ Below is an overview of our tensor program optimizer using equality saturation a
     ```
     cd /tensor-eqs-mcts
     ```
-3. Clone the TASO repository: 
+3. Initialize and update the submodules
+    ```
+    git submodule update --init --recursive
+    ```
+4. Clone the TASO repository: 
     ```
     git clone https://github.com/yycdavid/taso.git
     ```
-4. Change directory: 
+5. Change directory: 
     ```
     cd /tensat/docker
     ```
-5. Run the Dockerfile to install the dependencies: 
+6. Run the Dockerfile to install the dependencies: 
     ```
     docker build --tag tensat:1.0 .
     ```
-6. In the `run_docker.sh` file, change the source parameters to the correct folder paths.
-7. Start the Docker container: 
+7. In the `run_docker.sh` file, change the source parameters to the correct folder paths.
+8. Start the Docker container: 
     ```
     ./run_docker.sh
     ```
-8. Inside the Docker container, install TASO:
+9. Inside the Docker container, install TASO:
     ```
     cd /usr/TASO
     mkdir -p build
@@ -58,7 +62,7 @@ Below is an overview of our tensor program optimizer using equality saturation a
     cd /usr/TASO/python
     python setup.py install
     ```
-9. Inside the Docker container, install the ILP solver:
+10. Inside the Docker container, install the ILP solver:
     ```
     sudo apt-get update
     sudo apt-get install coinor-libcbc-dev
@@ -70,9 +74,9 @@ If you receive an error message similar to `libstdc++.so.6: version 'GLIBCXX_3.4
 
 
 # Experiments
-- In our experiments, we evaluate a) our proposed cost function for greedy extractors and b) compare the performance of our tensor program optimizer to TENSAT. We use the following neural networks architectures as benchmarks: BERT, Inception-v3, MobileNet-v2, NASNet-A, NASRNN, ResNet-50, ResNeXt-50, SqueezeNet, and VGG-19.  We repeat all experiments five times to account for the randomness of MCTS and the stochasticity of the cost model.
-- To run our optimizer, use `/rmcts/run_experiments.sh`. The script will automatically run experiments across different cost functions, neural network architectures, and seeds. The hyperparameters of our optimizer can be changed in `/rmcts/src/main.rs`.
-- For TENSAT, use `/tensat/run_exp_main.sh` to automatically run all experiments with our default settings. The hyperparameters can be changed in the script.
+- In our experiments, we evaluate a) our proposed cost function for greedy extractors and b) compare the performance of our tensor program optimizer to TENSAT. We use the following neural networks architectures as benchmarks: BERT, Inception-v3, MobileNet-v2, NASNet-A, NASRNN, ResNet-50, ResNeXt-50, SqueezeNet, and VGG-19. All neural networks are included in the submodules of this repository. We repeat all experiments five times to account for the randomness of MCTS and the stochasticity of the cost model.
+- To run our optimizer with the default settings, use `/rmcts/run_experiments.sh`. The script will automatically run experiments across different cost functions, neural network architectures, and seeds. The hyperparameters of our optimizer can be changed in `/rmcts/src/main.rs`.
+- For TENSAT, use `/tensat/run_exp_main.sh` to automatically run all experiments with the default settings. The hyperparameters can be changed in the script.
 
 
 # Evaluation
@@ -84,11 +88,11 @@ If you receive an error message similar to `libstdc++.so.6: version 'GLIBCXX_3.4
     - `start.svg` and `ext.svg`: Visualization of the original and final e-graph.
     - `settings.txt`: Settings for the experiment.
     - `ilp_data_main.json` and `solved_main.json`: Files used and outputed by the ILP solver.
-- The experimental results for our optimizer are saved in `/experiments/tensor_eqs_mcts`. Each folder corresponds to a combination of main and final extraction method and each subfolder corresponds to one model and run. Each subfolder contains the following files:
+- The experimental results for our optimizer are saved in `/experiments/tensor_eqs_mcts`. Each folder corresponds to a combination of main and final extraction method and each subfolder corresponds to one model and seed. Each subfolder contains the following files:
     - `rmcts_stats.txt`: Optimization results including original graph runtime, optimized graph runtime, and optimization time.
     - `rmcts_iteration_data.txt`: Detailed information for each MCTS iteration including which single- and multi-pattern rewrite rules were applied to the e-graph.
     - `start.model` and `optimized.model`: Serialized version of the input and output tensor program.
     - `start.svg` and `ext.svg`: Visualization of the original and final e-graph.
     - `settings.txt`: Settings for the experiment.
     - `ilp`: The folder includes files used and outputed by the ILP solver. Only present for experiments that use an ILP solver.
-- We provide Jupyter notebooks to aggregate and process the experimental results.
+- [This Juyper notebook](./experiments/analyze_results.ipynb) can be used to analyze the experimental results and reproduce the tables and figures in our paper. Please follow the instructions in the notebook.

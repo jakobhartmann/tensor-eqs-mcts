@@ -1,0 +1,29 @@
+[package]
+name = "rmcts"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# egg = { version = "0.9.3", features = [ "lp", "serde-1"] }
+egg = { path = "../egg", features = ["serde-1", "lp"] }
+rand = { version = "0.8.5"}
+serde = { version = "1.0.137", features = ["derive"] }
+serde_json = {version = "1.0.81" }
+itertools = { version = "0.10.5" }
+fxhash = "0.2.1"
+ordered-float = "3.0.0"
+env_logger = { version = "0.9.0", default-features = false }
+rand_chacha = "0.3.1"
+tensat = { path = "../tensat" }
+cap = "0.1.2"
+clap = "2.33"
+
+
+# test only deps
+[dev-dependencies]
+# fxhash = "0.2.1"
+# ordered-float = "3.0.0"
+# env_logger = { version = "0.9.0", default-features = false }
+# rand_chacha = "0.3.1"

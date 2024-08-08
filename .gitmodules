@@ -1,4 +1,0 @@
-[submodule "rmcts"]
-	path = rmcts
-	url = https://github.com/jakobhartmann/rmcts.git
-	branch = tensat

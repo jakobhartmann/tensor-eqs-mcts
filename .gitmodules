@@ -1,6 +1,3 @@
-[submodule "egg"]
-	path = egg
-	url = https://github.com/jakobhartmann/egg.git
 [submodule "tensat"]
 	path = tensat
 	url = https://github.com/jakobhartmann/tensat.git

@@ -1,0 +1,18 @@
+target
+**/*.rs.bk
+Cargo.lock
+
+dots/
+egg/data/
+
+# nix stuff
+.envrc
+default.nix
+
+# other stuff
+TODO.md
+flamegraph.svg
+perf.data*
+*.bench
+.vscode/settings.json
+out.csv

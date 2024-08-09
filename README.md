@@ -7,7 +7,7 @@ This repository accompanies the paper _"Optimizing Tensor Computation Graphs wit
 3. Y. Yang et al., [Equality Saturation for Tensor Graph Superoptimization](https://proceedings.mlsys.org/paper_files/paper/2021/file/cc427d934a7f6c0663e5923f49eba531-Paper.pdf), MLSys, 2021. TENSAT serves as our baseline and provides important functionality such as the application of multi-pattern rewrite rules. We have modified [this version](https://github.com/uwplse/tensat) to implement, among other things, our proposed cost function.
 4. He et al., [MCTS-GEB: Monte Carlo Tree Search is a Good E-graph Builder](https://dl.acm.org/doi/abs/10.1145/3578356.3592577), EuroMLSys, 2023. Our tensor program optimizer is built on top of the [Rust-based implementation](https://github.com/hgl71964/rmcts) of MCTS-GEB.
 
-Below is an overview of our tensor program optimizer using equality saturation and MCTS. We have added our modified versions of egg, TENSAT, and rmcts as folders to this repository.
+Below is an overview of our tensor program optimizer using equality saturation and MCTS. We have added TASO, egg, TENSAT, and rmcts as folders to this repository.
 
 ![Overview of our tensor program optimizer using equality saturation and MCTS](overview.png)
 
@@ -94,26 +94,18 @@ To run our optimizer, an NVIDIA GPU with appropriate drivers and the [NVIDIA Con
    ```
 2. Change directory:
    ```
-   cd tensor-eqs-mcts
+   cd tensor-eqs-mcts/tensat/docker
    ```
-3. Clone the TASO repository:
-   ```
-   git clone https://github.com/yycdavid/taso.git
-   ```
-4. Change directory:
-   ```
-   cd tensat/docker
-   ```
-5. Run the Dockerfile to install the dependencies:
+3. Run the Dockerfile to install the dependencies:
    ```
    docker build --tag tensat:1.0 .
    ```
-6. In the `run_docker.sh` file, change the source parameters to the correct folder paths.
-7. Start the Docker container:
+4. In the `run_docker.sh` file, change the source parameters to the correct folder paths.
+5. Start the Docker container:
    ```
    ./run_docker.sh
    ```
-8. Inside the Docker container, install TASO:
+6. Inside the Docker container, install TASO:
    ```
    cd /usr/TASO
    mkdir -p build
@@ -123,7 +115,7 @@ To run our optimizer, an NVIDIA GPU with appropriate drivers and the [NVIDIA Con
    cd /usr/TASO/python
    python setup.py install
    ```
-9. Inside the Docker container, install the ILP solver:
+7. Inside the Docker container, install the ILP solver:
    ```
    sudo apt-get update
    sudo apt-get install coinor-libcbc-dev
@@ -223,3 +215,14 @@ If you receive a `Cuda failure: 804` error message when trying to run the experi
   7. Follow the instructions in the [Juyper notebook](./experiments/analyze_results.ipynb).
 
 - If you had to restart the experiments, it is possible that the `.txt` result files contain duplicates. This can cause the JSON decoder in the analysis notebook to throw an error. You can use [this Juyper notebook](./experiments/deduplicate_results.ipynb) to deduplicate the data.
+
+# License
+
+This project is licensed under the [MIT License](LICENSE). However, it includes components that are licensed under the Apache License 2.0.
+
+- egg is licensed under the MIT License. See [egg/LICENSE](./egg/LICENSE) for details.
+- TENSAT is licensed under the MIT License. See [tensat/LICENSE](./tensat/LICENSE) for details.
+- rmcts is licensed under the MIT License. See [rmcts/LICENSE](./rmcts/LICENSE) for details.
+- TASO is licensed under the Apache License 2.0. See [TASO/LICENSE](./TASO/LICENSE) for details.
+
+Please consult the specific `LICENSE` file in each project directory for the full terms of that project's license.
